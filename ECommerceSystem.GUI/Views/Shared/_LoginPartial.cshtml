@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var user = HttpContextAccessor.HttpContext?.User;
+    var isAuthenticated = user?.Identity?.IsAuthenticated ?? false;
+    var name = isAuthenticated ? user.FindFirst("name")?.Value ?? "User" : null;
+}
+
+<div class="user-actions d-flex align-items-center gap-2">
+    @if (isAuthenticated)
+    {
+        <!-- Hiển thị tên người dùng -->
+        <span class="nav-link text-info mb-0">👤 @name</span>
+
+        <!-- Nút đăng xuất -->
+        <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline mb-0">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="nav-link btn btn-link text-danger p-0" style="text-decoration: none;">
+                Đăng xuất
+            </button>
+        </form>
+    }
+    else
+    {
+        <!-- Đăng nhập -->
+        <a class="nav-link hover-lift" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+
+        <!-- Đăng ký -->
+        <a class="nav-link hover-lift" asp-controller="Account" asp-action="Register">Đăng ký</a>
+    }
+</div>

@@ -5,36 +5,49 @@
     ViewData["Title"] = "Đăng nhập";
 }
 
-<div class="container mt-5" style="max-width: 500px;">
-    <h2 class="mb-4 text-center">Đăng nhập</h2>
-
-    <form asp-action="Login" asp-controller="Account" method="post">
-        <div class="form-group mb-3">
-            <label asp-for="Username"></label>
-            <input asp-for="Username" class="form-control" />
-            <span asp-validation-for="Username" class="text-danger"></span>
-        </div>
-
-        <div class="form-group mb-3">
-            <label asp-for="Password"></label>
-            <input asp-for="Password" class="form-control" type="password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-
-        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-        {
-            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
-        }
-
-
-        <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
-    </form>
-
-    <div class="text-center mt-3">
-        <p>Bạn chưa có tài khoản? <a asp-controller="Account" asp-action="Register">Đăng ký</a></p>
-    </div>
+<div class="login-header">
+    <h2>Đăng nhập</h2>
+    <p>Vui lòng nhập thông tin của bạn</p>
 </div>
-
+<form asp-action="Login" method="post">
+    <div class="form-floating mb-3">
+        <input asp-for="Username" class="form-control" id="email" placeholder="Username" />
+        <label asp-for="Username">Username</label>
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Password" class="form-control" id="password" type="password" placeholder="Mật khẩu" />
+        <label asp-for="Password">Mật khẩu</label>
+        <span class="password-toggle">👁️</span>
+        <div class="password-strength">
+            <div class="strength-meter">
+                <div class="strength-meter-fill"></div>
+            </div>
+            <div class="strength-text">Độ mạnh mật khẩu <small>(Nhập để kiểm tra)</small></div>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="remember" />
+        <label class="form-check-label" for="remember">Ghi nhớ tôi</label>
+    </div>
+    <button type="submit" class="btn btn-primary w-100 mb-3">Đăng nhập</button>
+    <div class="social-login">
+        <p>Hoặc đăng nhập với</p>
+        <div class="social-buttons">
+            <a href="#" class="social-btn google">G</a>
+            <a href="#" class="social-btn facebook">F</a>
+            <a href="#" class="social-btn twitter">T</a>
+        </div>
+    </div>
+    <div class="forgot-password mt-3">
+        <a asp-action="ForgotPassword" asp-controller="Auth">Quên mật khẩu?</a>
+    </div>
+    <div class="login-link mt-2">
+        <a asp-action="Register" asp-controller="Account">Chưa có tài khoản? Đăng ký</a>
+    </div>
+</form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Account.js" asp-append-version="true"></script>
 }

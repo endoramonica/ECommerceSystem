@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <Compile Remove="ViewModels\**" />
+    <Compile Remove="wwwroot\images\**" />
+    <Content Remove="Helpers\**" />
+    <Content Remove="ViewModels\**" />
+    <Content Remove="wwwroot\images\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
+    <EmbeddedResource Remove="wwwroot\images\**" />
+    <None Remove="Helpers\**" />
+    <None Remove="ViewModels\**" />
+    <None Remove="wwwroot\images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6" />
     <PackageReference Include="Refit" Version="8.0.0" />
@@ -16,12 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ECommerceSystem.Shared\ECommerceSystem.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

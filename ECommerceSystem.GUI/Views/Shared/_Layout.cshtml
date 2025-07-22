@@ -391,9 +391,7 @@
             <div class="container">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <div class="d-flex align-items-center mb-2 mb-md-0">
-                        <button id="toggle-category" class="btn btn-modern me-3">
-                            <i class="fas fa-bars"></i> Danh mục
-                        </button>
+                        
                         <a class="logo" asp-controller="Home" asp-action="Index">
                             <i class="fas fa-store me-2"></i>
                             <span>ECommerce</span>
@@ -409,43 +407,21 @@
                                 <i class="fas fa-phone"></i>
                                 <span class="d-none d-md-inline">1800.2097</span>
                             </a>
-                            <a href="#" class="header-action">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span class="d-none d-md-inline">Cửa hàng</span>
-                            </a>
-                            <a href="#" class="header-action">
-                                <i class="fas fa-truck"></i>
-                                <span class="d-none d-md-inline">Tra cứu</span>
-                            </a>
+                            
+                            
                             <a href="#" class="header-action cart">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span>Giỏ hàng</span>
                                 <span class="badge bg-danger ms-1">0</span>
                             </a>
+                            <a href="#" id="dark-mode-toggle" class="btn btn-sm hover-scale magnetic" title="Toggle Theme">
+                                <i class="fas fa-moon">
+                                   
+                                </i>
+                            </a>
                         </div>
-                        <div class="auth-section">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <span class="user-greeting">
-                                    <i class="fas fa-user-circle me-1"></i>
-                                    Xin chào, @User.Identity.Name
-                                </span>
-                                <form asp-action="Logout" asp-controller="Account" method="post" style="display: inline;">
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class="logout-btn">
-                                        <i class="fas fa-sign-out-alt me-1"></i>
-                                        Đăng xuất
-                                    </button>
-                                </form>
-                            }
-                            else
-                            {
-                                <a class="login-btn" asp-controller="Account" asp-action="Login">
-                                    <i class="fas fa-user me-1"></i>
-                                    Đăng nhập
-                                </a>
-                            }
-                        </div>
+                        <!-- Login/Register Partial -->
+                        @await Html.PartialAsync("_LoginPartial")
                     </div>
                 </div>
             </div>
@@ -474,6 +450,7 @@
         </main>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/Components/dark-mode-toggle.js"></script>
     <script>
         $(document).ready(function () {
             $('#toggle-category').on('click', function () {
