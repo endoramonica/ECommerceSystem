@@ -25,7 +25,6 @@ namespace ECommerceSystem.GUI.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-
         public async Task<(bool Success, string Role)> LoginAsync(LoginModel model)
         {
             try
@@ -44,17 +43,21 @@ namespace ECommerceSystem.GUI.Services
                     if (jwtToken != null)
                     {
                         var claimsIdentity = new ClaimsIdentity(jwtToken.Claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        foreach (var claim in jwtToken.Claims)
+                        {
+                            Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
+                        }
+
                         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
                         await _httpContextAccessor.HttpContext.SignInAsync(
-    "MyCookieAuth", // đúng scheme đã đăng ký
-    claimsPrincipal,
-    new AuthenticationProperties
-    {
-        IsPersistent = true,
-        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
-    });
-
+                            "MyCookieAuth",
+                            claimsPrincipal,
+                            new AuthenticationProperties
+                            {
+                                IsPersistent = true,
+                                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
+                            });
                     }
 
                     return (true, role);
@@ -67,7 +70,6 @@ namespace ECommerceSystem.GUI.Services
                 return (false, null);
             }
         }
-
 
         public async Task<bool> RegisterAsync(RegisterModel model)
         {
@@ -163,7 +165,7 @@ namespace ECommerceSystem.GUI.Services
                 return false;
             }
         }
-        // Add this method to fix the CS0103 error
+
         public void SaveRefreshTokenToCookie(string refreshToken)
         {
             var response = _httpContextAccessor.HttpContext?.Response;
@@ -172,16 +174,14 @@ namespace ECommerceSystem.GUI.Services
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddDays(7) // Adjust expiration as needed
+                Expires = DateTimeOffset.UtcNow.AddDays(7)
             });
         }
 
-        // Add this helper method to retrieve the refresh token from the cookie
         public string GetRefreshTokenFromCookie()
         {
             var request = _httpContextAccessor.HttpContext?.Request;
             return request?.Cookies["RefreshToken"];
         }
-
     }
 }

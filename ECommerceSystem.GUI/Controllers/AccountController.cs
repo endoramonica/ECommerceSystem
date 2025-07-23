@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ECommerceSystem.GUI.Controllers
@@ -62,6 +63,24 @@ namespace ECommerceSystem.GUI.Controllers
 
                 _logger.LogInformation("Successful login for username: {Username}", model.Username);
 
+                // Tạo claims
+                var claims = new List<Claim>
+{
+    new Claim(ClaimTypes.Name, model.Username),
+    new Claim(ClaimTypes.Role, role) // Rất quan trọng
+};
+
+                // Tạo identity & principal
+                var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+                var principal = new ClaimsPrincipal(identity);
+
+                // Đăng nhập bằng cookie
+                await HttpContext.SignInAsync("MyCookieAuth", principal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddHours(3)
+                });
+
                 // Điều hướng theo vai trò
                 return role switch
                 {
@@ -69,6 +88,7 @@ namespace ECommerceSystem.GUI.Controllers
                     "Customer" => RedirectToAction("Index", "Home"),
                     _ => RedirectToAction("Index", "Home")
                 };
+
             }
             catch (Exception ex)
             {

@@ -46,6 +46,10 @@ namespace ECommerceSystem.GUI.Controllers
 
             return View(productResponse.Products);
         }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

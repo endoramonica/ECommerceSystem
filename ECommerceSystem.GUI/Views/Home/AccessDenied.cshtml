@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+    Layout = "~/Views/Shared/PagesLayout/_PageLayout.cshtml";
+}
+
+<div class="container">
+    <div class="error-code">403</div>
+    <div class="error-icon">🚫</div>
+    <h1>Không đủ quyền truy cập</h1>
+    <p class="subtitle">Bạn không có quyền truy cập vào trang này.<br>Vui lòng liên hệ quản trị viên để được hỗ trợ.</p>
+
+    <div class="action-buttons">
+        <a href="/" class="btn btn-primary">
+            🏠 Về trang chủ
+        </a>
+        <a href="mailto:admin@example.com" class="btn btn-secondary">
+            📧 Liên hệ Admin
+        </a>
+    </div>
+</div>

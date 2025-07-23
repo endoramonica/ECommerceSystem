@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(options =>
 .AddCookie("MyCookieAuth", options =>
 {
     options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Home/Error";
+    options.AccessDeniedPath = "/Home/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.SlidingExpiration = true;
 })
@@ -72,6 +72,22 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication(); // Thêm middleware xác thực
+app.UseStatusCodePages(context =>
+{
+    var response = context.HttpContext.Response;
+
+    if (response.StatusCode == 403)
+    {
+        response.Redirect("/Home/AccessDenied"); // ✅ Trang bạn tự thiết kế
+    }
+    else if (response.StatusCode == 401)
+    {
+        response.Redirect("/Auth/Login?returnUrl=" + context.HttpContext.Request.Path);
+    }
+
+    return Task.CompletedTask;
+});
+
 app.UseAuthorization();
 
 app.MapControllerRoute(

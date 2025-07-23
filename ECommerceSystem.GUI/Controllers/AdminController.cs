@@ -1,5 +1,7 @@
 ﻿using ECommerceSystem.GUI.Apis;
+using ECommerceSystem.Shared.Constants;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization; // <-- Add this line
 using Refit;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -7,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.GUI.Controllers
 {
+    //  [Authorize(Roles = "Admin")] loi do dinh cnflic giua asp net va http
+    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
+
     public class AdminController : Controller
     {
         private readonly IAdminApi _adminApi;
